@@ -121,7 +121,7 @@ public class GlobalDictionary : MonoBehaviour
                 Vocabulary = Vocabulary.Concat(GlobalData.SharedDictionary.DictionaryList).ToList();
             }
             if (useYourDictionary) {
-                Vocabulary = Vocabulary.Concat(GlobalData.UsersManager.GetUserDetails(GlobalData.LoggedInUser, GlobalData.SerialType).SavedWordsList).ToList();
+                Vocabulary = Vocabulary.Concat(GlobalData.UsersManager.GetUserDetails(GlobalData.UsersManager.LoggedInUser, GlobalData.SerialType).SavedWordsList).ToList();
             }
             //Vocabulary = greekwords;
         }

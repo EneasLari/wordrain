@@ -84,7 +84,7 @@ public class CanvasManager : MonoBehaviour
 
     public void DeleteUserSavedWord() {
         string wordtodelete = UserSavedWordDisplay.GetComponent<Text>().text;
-        List<Word> list = GlobalData.UsersManager.GetUserDetails(GlobalData.LoggedInUser,GlobalData.SerialType).SavedWordsList;
+        List<Word> list = GlobalData.UsersManager.GetUserDetails(GlobalData.UsersManager.LoggedInUser,GlobalData.SerialType).SavedWordsList;
         list.Remove(list.Find(x => x.Wordstr.Equals(wordtodelete.Split('-')[0].Trim()) && x.MisspelledWordstr.Equals(wordtodelete.Split('-')[1].Trim())));
         InitializeUserSavedWords();
     }
@@ -139,7 +139,7 @@ public class CanvasManager : MonoBehaviour
         Word userword = new Word(CorrectWordInput.text, MisspelledWordInput.text);
         userword.WordLanguage =Enums.LanguageFromString(LanguageDropDown.options[LanguageDropDown.value].text);
         UsersManager userManager = GlobalData.UsersManager;
-        List<Word> userSavedWordsList =userManager.GetUserDetails(GlobalData.LoggedInUser, GlobalData.SerialType).SavedWordsList;
+        List<Word> userSavedWordsList =userManager.GetUserDetails(GlobalData.UsersManager.LoggedInUser, GlobalData.SerialType).SavedWordsList;
         userSavedWordsList.Add(userword);
         userManager.Serialize(GlobalData.SerialType);
         GlobalDictionary.setVocabulary(userword.WordLanguage.ToString());
@@ -189,7 +189,7 @@ public class CanvasManager : MonoBehaviour
     }
 
     private void LoadWordsCollectedList() {
-        List<Word> templist = GlobalData.UsersManager.GetUserDetails(GlobalData.LoggedInUser, GlobalData.SerialType).CollectedWordsList;
+        List<Word> templist = GlobalData.UsersManager.GetUserDetails(GlobalData.UsersManager.LoggedInUser, GlobalData.SerialType).CollectedWordsList;
         if (templist != null || templist.Count != 0) {
             WordsCollectedList = templist;
         } else {
@@ -276,7 +276,7 @@ public class CanvasManager : MonoBehaviour
     }
 
     private void LoadUserSavedWordsList() {
-        List<Word> templist = GlobalData.UsersManager.GetUserDetails(GlobalData.LoggedInUser, GlobalData.SerialType).SavedWordsList;
+        List<Word> templist = GlobalData.UsersManager.GetUserDetails(GlobalData.UsersManager.LoggedInUser, GlobalData.SerialType).SavedWordsList;
         //Language selectedlang = Globals.SharedDictionary.SelectedLanguage;
         //List<Word> wordsofselectedlanguage = new List<Word>();
         //for (int i = 0; i < templist.Count; i++) {
@@ -312,9 +312,9 @@ public class CanvasManager : MonoBehaviour
     }
 
     public void RefreshDetails() {
-        if (_activeuser == null || !GlobalData.LoggedInUser.Equals(_activeuser.Name)) {
+        if (_activeuser == null || !GlobalData.UsersManager.LoggedInUser.Equals(_activeuser.Name)) {
             UsersManager uu = GlobalData.UsersManager;
-            _activeuser = uu.GetUserDetails(GlobalData.LoggedInUser, GlobalData.SerialType);
+            _activeuser = uu.GetUserDetails(GlobalData.UsersManager.LoggedInUser, GlobalData.SerialType);
         }
         Score.text = "Πόντοι :" + _activeuser.Score + "";
         HighestScore.text = "Ρεκορ :" + _activeuser.HighestScore + "";
@@ -322,7 +322,7 @@ public class CanvasManager : MonoBehaviour
 
     public void RefreshCurrentScore(int score) {
         if (_activeuser == null) {
-            _activeuser= GlobalData.UsersManager.GetUserDetails(GlobalData.LoggedInUser, GlobalData.SerialType);
+            _activeuser= GlobalData.UsersManager.GetUserDetails(GlobalData.UsersManager.LoggedInUser, GlobalData.SerialType);
         }
         CurrentScore.text = "Πόντοι:" + score + "";
         if (_activeuser.HighestScore < score) {
@@ -342,23 +342,23 @@ public class CanvasManager : MonoBehaviour
             print("PROBLEMAS");
             return;
         }
-        GlobalData.LoggedInUser = newuseradded;
+        GlobalData.UsersManager.LoggedInUser = newuseradded;
         RefreshDetails();
         LoggedInUserDisplay();
     }
 
     public void LoggedInUserDisplay() {
-        LoggedInUser.text = GlobalData.LoggedInUser;
-        LoggedInUser2.text = GlobalData.LoggedInUser;
+        LoggedInUser.text = GlobalData.UsersManager.LoggedInUser;
+        LoggedInUser2.text = GlobalData.UsersManager.LoggedInUser;
     }
 
     public void NextUser() {
         for (int i=0;i< GlobalData.UsersManager.UsersNames.Count;i++) {
-            if (GlobalData.UsersManager.UsersNames[i].Equals(GlobalData.LoggedInUser)) {
+            if (GlobalData.UsersManager.UsersNames[i].Equals(GlobalData.UsersManager.LoggedInUser)) {
                 if(i== GlobalData.UsersManager.UsersNames.Count-1)
-                    GlobalData.LoggedInUser = GlobalData.UsersManager.UsersNames[0];
+                    GlobalData.UsersManager.LoggedInUser = GlobalData.UsersManager.UsersNames[0];
                 else
-                    GlobalData.LoggedInUser = GlobalData.UsersManager.UsersNames[i + 1];
+                    GlobalData.UsersManager.LoggedInUser = GlobalData.UsersManager.UsersNames[i + 1];
                 break;
             }
         }

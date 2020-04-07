@@ -69,7 +69,7 @@ public class WordClickManager : MonoBehaviour {
 
                     } else if(!fallingParent.isClicked) {
                         fallingParent.isClicked = true;
-                        UserDetails activeUser = GlobalData.UsersManager.GetUserDetails(GlobalData.LoggedInUser, GlobalData.SerialType);
+                        UserDetails activeUser = GlobalData.UsersManager.GetUserDetails(GlobalData.UsersManager.LoggedInUser, GlobalData.SerialType);
                         activeUser.AddtoCollectedWords(new Word(word));
                         activeUser.Score += hit.transform.parent.childCount;
                         FallingParent.fallSpeed += 0.1f;
