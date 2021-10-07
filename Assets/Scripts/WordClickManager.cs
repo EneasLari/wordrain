@@ -18,6 +18,9 @@ public class WordClickManager : MonoBehaviour {
     public AudioSource ExplosionAudioSource;
     public AudioClip CorrectClip;
     public AudioClip WrongClip;
+
+    [SerializeField]
+    private LayerMask layerMask;
     void Start () {
 		
 	}
@@ -39,19 +42,19 @@ public class WordClickManager : MonoBehaviour {
         if (Input.GetMouseButtonDown(0)) {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit)) {
-                Transform parent = hit.transform.parent;
+            if (Physics.Raycast(ray, out hit,1000,layerMask)) {
+                Transform parent = hit.transform;
                 string word = "";
-                if (parent != null && hit.transform.parent.name == "FallingParent") {
-                    GameObject wordgenerator = hit.transform.parent.parent.gameObject;
-                    FallingParent fallingParent = hit.transform.parent.GetComponent<FallingParent>();
+                if (parent != null) {
+                    GameObject wordgenerator = hit.transform.parent.gameObject;
+                    FallingParent fallingParent = hit.transform.GetComponent<FallingParent>();
 
                     for (int i = 0; i < parent.childCount; i++) {
                         word = word + parent.GetChild(i).name[0];
                     }
                     if (fallingParent.isMisspelled && !fallingParent.isClicked) {
                         fallingParent.isClicked = true;
-                        print("You clicked an misspelled word you lose"+ word);
+                        //print("You clicked an misspelled word you lose"+ word);
                         if (PreviousMaterial==null) {
                             PreviousMaterial = RenderSettings.skybox;
                         }
@@ -75,8 +78,8 @@ public class WordClickManager : MonoBehaviour {
                         FallingParent.fallSpeed += 0.1f;
                         MainGameGameObject.GetComponent<LettersGame>().InGameScore += hit.transform.parent.childCount;
                         ScoreText.GetComponent<Animator>().SetTrigger("triggerscaler");
-                        hit.transform.parent.GetComponent<FallingParent>().enabled = false;
-                        foreach (Transform child in hit.transform.parent) {                       
+                        hit.transform.GetComponent<FallingParent>().enabled = false;
+                        foreach (Transform child in hit.transform) {                       
                             child.gameObject.GetComponent<MeshRenderer>().enabled = false;
                             GameObject explosionPiecesParent = child.Find("ExplosionPieces").gameObject;
                             explosionPiecesParent.SetActive(true);
@@ -84,7 +87,7 @@ public class WordClickManager : MonoBehaviour {
                             ExplosionAudioSource.clip = CorrectClip;
                             ExplosionAudioSource.PlayOneShot(ExplosionAudioSource.clip);
                             Destroy(child.gameObject, 4f);
-                            print("You click a correctly spelled word you take points(and the word makes explosion effect--poooff)===" + word);
+                            //print("You click a correctly spelled word you take points(and the word makes explosion effect--poooff)===" + word);
                         }                        
                     }
                 }
