@@ -186,6 +186,7 @@ namespace Assets.Scripts.PersistentData {
             using (System.IO.FileStream fileStream = new System.IO.FileStream(filename, System.IO.FileMode.Open)) {
                 UsersManager = (UsersManager)serializer.Deserialize(fileStream);
                 this._usersNames = UsersManager._usersNames;
+                this._loggedInUser = UsersManager._loggedInUser;
             }
         }
 
@@ -216,6 +217,7 @@ namespace Assets.Scripts.PersistentData {
             using (System.IO.FileStream fileStream = new System.IO.FileStream(filename, System.IO.FileMode.Open)) {
                 sysusers = (UsersManager)serializer.Deserialize(fileStream);
                 this._usersNames = sysusers._usersNames;
+                this._loggedInUser = sysusers._loggedInUser;
             }
         }
 

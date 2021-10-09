@@ -11,6 +11,24 @@ using System.Xml.Serialization;
 using static Assets.Scripts.PersistentData.Dictionary;
 
 namespace Assets.Scripts.PersistentData {
+
+    [Serializable]
+    public class Chapters
+    {
+
+        public bool Chapter1Unit1 = true;
+        public bool Chapter1Unit2 = true;
+        public bool Chapter1Unit3 = true;
+        public bool Chapter1Unit4 = true;
+        public bool Chapter1Unit5 = true;
+        public bool Chapter1Unit6 = true;
+        public bool Chapter1Unit7 = true;
+        public bool Chapter1Unit8 = true;
+        public bool Chapter1Unit9 = true;
+        public bool Chapter1Unit10 = true;
+        public bool Chapter2Unit1 = true;
+    }
+
     [Serializable]
     public class UserDetails {
         private string _name=null;
@@ -27,6 +45,9 @@ namespace Assets.Scripts.PersistentData {
         private List<Word> _savedWordsList= new List<Word>();
         private DateTime _startTimer= DateTime.MinValue;
         private DateTime _dateCreated = DateTime.MinValue;
+        private Chapters _chapters = null;
+        private bool _useSharedDictionary = false;
+        private bool _useYourDictionary = false;
 
         public string Name {
             get {
@@ -111,6 +132,41 @@ namespace Assets.Scripts.PersistentData {
             set { _savedWordsList = value; }
         }
 
+        public Chapters Chapters
+        {
+            get
+            {
+                if (_chapters == null)
+                {
+                    _chapters = new Chapters();
+                }
+                return _chapters;
+            }
+            set
+            {
+                _chapters = value;
+            }
+        }
+
+
+        public bool UseSharedDictionary
+        {
+            get
+            {
+                return _useSharedDictionary;
+            }
+            set { _useSharedDictionary = value; }
+        }
+
+        public bool UseYourDictionary
+        {
+            get
+            {
+                return _useYourDictionary;
+            }
+            set { _useYourDictionary = value; }
+        }
+
         public bool AddtoCollectedWords(Word newWord) {
             if (_collectedWordsList.Exists(x => x.Wordstr.Equals(newWord.Wordstr))) {
                 return false;
@@ -186,6 +242,9 @@ namespace Assets.Scripts.PersistentData {
                 this._timePlaying = userdetails._timePlaying;
                 this._scenesUnlocked = userdetails._scenesUnlocked;
                 this._skinsUnlocked = userdetails._skinsUnlocked;
+                this._chapters = userdetails._chapters;
+                this._useYourDictionary = userdetails._useSharedDictionary;
+                this._useYourDictionary = userdetails._useYourDictionary;
             }
             
         }
@@ -229,6 +288,9 @@ namespace Assets.Scripts.PersistentData {
                 this._timePlaying = userdetails._timePlaying;
                 this._scenesUnlocked = userdetails._scenesUnlocked;
                 this._skinsUnlocked = userdetails._skinsUnlocked;
+                this._chapters = userdetails._chapters;
+                this._useSharedDictionary = userdetails._useSharedDictionary;
+                this._useYourDictionary = userdetails._useYourDictionary;
             }
 
         }

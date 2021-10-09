@@ -35,12 +35,47 @@ public class CanvasManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake() {
         RefreshDetails();
+        InitializeUsersGlobalDictionary();
         InitializeDictionaryOptions();
         LoggedInUserDisplay();
     }
 
     void Start() {
         
+    }
+
+    private void InitializeUsersGlobalDictionary() {
+        UserDetails userdetails = GlobalData.UsersManager.GetUserDetails(GlobalData.UsersManager.LoggedInUser, GlobalData.SerialType);
+        GlobalDictionary.UseChapter1Unit1= userdetails.Chapters.Chapter1Unit1;
+        GlobalDictionary.UseChapter1Unit2= userdetails.Chapters.Chapter1Unit2;
+        GlobalDictionary.UseChapter1Unit3= userdetails.Chapters.Chapter1Unit3;
+        GlobalDictionary.UseChapter1Unit4= userdetails.Chapters.Chapter1Unit4;
+        GlobalDictionary.UseChapter1Unit5= userdetails.Chapters.Chapter1Unit5;
+        GlobalDictionary.UseChapter1Unit6= userdetails.Chapters.Chapter1Unit6;
+        GlobalDictionary.UseChapter1Unit7= userdetails.Chapters.Chapter1Unit7;
+        GlobalDictionary.UseChapter1Unit8= userdetails.Chapters.Chapter1Unit8;
+        GlobalDictionary.UseChapter1Unit9= userdetails.Chapters.Chapter1Unit9;
+        GlobalDictionary.UseChapter1Unit10=userdetails.Chapters.Chapter1Unit10;
+        GlobalDictionary.UseChapter2Unit1= userdetails.Chapters.Chapter2Unit1;
+        GlobalDictionary.useSharedDictionary = userdetails.UseSharedDictionary;
+        GlobalDictionary.useYourDictionary = userdetails.UseYourDictionary;
+    }
+
+    private void UpdateUsersGlobalDictionary() {
+        UserDetails userdetails = GlobalData.UsersManager.GetUserDetails(GlobalData.UsersManager.LoggedInUser, GlobalData.SerialType);
+        userdetails.Chapters.Chapter1Unit1=GlobalDictionary.UseChapter1Unit1;
+        userdetails.Chapters.Chapter1Unit2=GlobalDictionary.UseChapter1Unit2;
+        userdetails.Chapters.Chapter1Unit3=GlobalDictionary.UseChapter1Unit3;
+        userdetails.Chapters.Chapter1Unit4=GlobalDictionary.UseChapter1Unit4;
+        userdetails.Chapters.Chapter1Unit5=GlobalDictionary.UseChapter1Unit5;
+        userdetails.Chapters.Chapter1Unit6=GlobalDictionary.UseChapter1Unit6;
+        userdetails.Chapters.Chapter1Unit7=GlobalDictionary.UseChapter1Unit7;
+        userdetails.Chapters.Chapter1Unit8=GlobalDictionary.UseChapter1Unit8;
+        userdetails.Chapters.Chapter1Unit9=GlobalDictionary.UseChapter1Unit9;
+        userdetails.Chapters.Chapter1Unit10 = GlobalDictionary.UseChapter1Unit1;
+        userdetails.Chapters.Chapter2Unit1= GlobalDictionary.UseChapter2Unit1;
+        userdetails.UseSharedDictionary = GlobalDictionary.useSharedDictionary;
+        userdetails.UseYourDictionary = GlobalDictionary.useYourDictionary;
     }
 
     public void InitializeDictionaryOptions(){
@@ -53,9 +88,10 @@ public class CanvasManager : MonoBehaviour
         DictionaryOptionsPanel.transform.Find("Chapter1Unit7").GetComponent<Toggle>().isOn = GlobalDictionary.UseChapter1Unit7;
         DictionaryOptionsPanel.transform.Find("Chapter1Unit8").GetComponent<Toggle>().isOn = GlobalDictionary.UseChapter1Unit8;
         DictionaryOptionsPanel.transform.Find("Chapter1Unit9").GetComponent<Toggle>().isOn = GlobalDictionary.UseChapter1Unit9;
-        DictionaryOptionsPanel.transform.Find("Chapter1Unit10").GetComponent<Toggle>().isOn = GlobalDictionary.UseChapter1Unit10;
+        DictionaryOptionsPanel.transform.Find("Chapter1Unit10").GetComponent<Toggle>().isOn =GlobalDictionary.UseChapter1Unit10;
         DictionaryOptionsPanel.transform.Find("Chapter2Unit1").GetComponent<Toggle>().isOn = GlobalDictionary.UseChapter2Unit1;
-
+        DictionaryOptionsPanel.transform.Find("SharedDictionary").GetComponent<Toggle>().isOn= GlobalDictionary.useSharedDictionary;
+        DictionaryOptionsPanel.transform.Find("UserDictionary").GetComponent<Toggle>().isOn= GlobalDictionary.useYourDictionary;
     }
 
     public void SubmitDictionaryOptions() {
@@ -73,6 +109,7 @@ public class CanvasManager : MonoBehaviour
         GlobalDictionary.useSharedDictionary=DictionaryOptionsPanel.transform.Find("SharedDictionary").GetComponent<Toggle>().isOn;
         GlobalDictionary.useYourDictionary= DictionaryOptionsPanel.transform.Find("UserDictionary").GetComponent<Toggle>().isOn;
         GlobalDictionary.setVocabulary("Greek");
+        UpdateUsersGlobalDictionary();
     }
 
     public void DeleteSharedSavedWord() {
@@ -80,6 +117,7 @@ public class CanvasManager : MonoBehaviour
         List<Word> list = GlobalData.SharedDictionary.DictionaryList;
         list.Remove(list.Find(x => x.Wordstr.Equals(wordtodelete.Split('-')[0].Trim()) && x.MisspelledWordstr.Equals(wordtodelete.Split('-')[1].Trim())));
         InitializeSharedSavedWords();
+        GlobalData.SharedDictionary.Serialize();
     }
 
     public void DeleteUserSavedWord() {
@@ -315,6 +353,7 @@ public class CanvasManager : MonoBehaviour
         if (_activeuser == null || !GlobalData.UsersManager.LoggedInUser.Equals(_activeuser.Name)) {
             UsersManager uu = GlobalData.UsersManager;
             _activeuser = uu.GetUserDetails(GlobalData.UsersManager.LoggedInUser, GlobalData.SerialType);
+
         }
         Score.text = "Πόντοι :" + _activeuser.Score + "";
         HighestScore.text = "Ρεκορ :" + _activeuser.HighestScore + "";
@@ -362,8 +401,11 @@ public class CanvasManager : MonoBehaviour
                 break;
             }
         }
+
         RefreshDetails();
         LoggedInUserDisplay();
+        InitializeUsersGlobalDictionary();
+        InitializeDictionaryOptions();
     }
 
     // Update is called once per frame
