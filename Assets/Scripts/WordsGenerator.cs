@@ -97,6 +97,8 @@ public class WordsGenerator : MonoBehaviour {
             inst = Instantiate(getPrefabFromLetter(c + ""), pos, getPrefabFromLetter(c + "").transform.rotation);
             inst.transform.Rotate(0, 180, 0);
             sizeofletter = inst.GetComponent<Renderer>().bounds.size;
+            Vector3 sizeofrenderer= inst.GetComponent<MeshRenderer>().bounds.size;
+            Vector3 sizeofrenderer2 = inst.GetComponent<MeshFilter>().mesh.bounds.size;
             if (wordParent == null) {
                 wordParent = Instantiate(EmptyGameObject, pos, inst.transform.rotation);
                 wordParent.SetActive(true);
