@@ -60,7 +60,7 @@ public class WordClickManager : MonoBehaviour {
                         }
                         Camera.main.GetComponent<SkyBoxManager>().setFalseSkyBox();
                         _startTimer = DateTime.Now;
-                        wordgenerator.GetComponent<WordsGenerator>().TimeToRespawn -= 0.0005;
+                        wordgenerator.GetComponent<WordsGenerator>().timeToRespawn -= 0.0005f;
                         FallingParent.fallSpeed += 0.5f;
                         //foreach (Transform child in hit.transform.parent) {
                             //GameObject explosionPiecesParent = child.Find("ExplosionPieces").gameObject;

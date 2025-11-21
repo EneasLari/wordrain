@@ -13,42 +13,21 @@ public class WordsGenerator : MonoBehaviour {
     public Camera MainCamera;
 
     private GameObject[] _lettersArray = null;
-    private double _timetorepawn = 3;
-    private DateTime _startTimer = DateTime.MinValue;
 
-    public void StartTimer() {
-        _startTimer = DateTime.Now;
-    }
+    private float respawnTimer;
+    public float timeToRespawn = 3f;
 
-    // Start is called before the first frame update
     void Start() {
         SpawnWord(0);
-        StartTimer();
+        respawnTimer = timeToRespawn;
     }
 
-    // Update is called once per frame
     void Update() {
-        if (GetTimePassed() >= TimeToRespawn) {
+        respawnTimer -= Time.deltaTime;
+        if (respawnTimer <= 0f) {
             SpawnWord(0);
-            StartTimer();
+            respawnTimer = timeToRespawn;
         }
-    }
-
-    public double GetTimePassed() {
-        DateTime starttime = _startTimer;
-        //_startTimer = DateTime.MinValue;
-        if (_startTimer != DateTime.MinValue) {
-            return (DateTime.Now - starttime).TotalSeconds;
-        }
-        return 0;
-    }
-
-    public double TimeToRespawn { 
-        get {
-            return _timetorepawn;
-        } set {
-            _timetorepawn = value;
-        } 
     }
 
     public GameObject[] LettersArray {
@@ -94,7 +73,13 @@ public class WordsGenerator : MonoBehaviour {
         foreach (char c in word) {
             count++;
             Vector3 pos = new Vector3(gameObject.transform.position.x + offsetatX, gameObject.transform.position.y, gameObject.transform.position.z);
-            inst = Instantiate(getPrefabFromLetter(c + ""), pos, getPrefabFromLetter(c + "").transform.rotation);
+            GameObject prefab = getPrefabFromLetter(c.ToString());
+            if (prefab == null) {
+                Debug.LogError($"No prefab found for letter '{c}'");
+                continue; // or return; or handle in some other way
+            }
+
+            inst = Instantiate(prefab, pos, prefab.transform.rotation);
             inst.transform.Rotate(0, 180, 0);
             sizeofletter = inst.GetComponent<Renderer>().bounds.size;
             Vector3 sizeofrenderer= inst.GetComponent<MeshRenderer>().bounds.size;
@@ -140,22 +125,34 @@ public class WordsGenerator : MonoBehaviour {
         }
         Destroy(wordParent.transform.Find("ExplosionPieces").gameObject);
         Vector3 parentPosition = wordParent.transform.position;
-        Vector3 worldtoscreenpos = MainCamera.WorldToScreenPoint(parentPosition);
-        Vector3 screentoworldpos1 = MainCamera.ViewportToWorldPoint(new Vector3(0, worldtoscreenpos.y, worldtoscreenpos.z));
-        Vector3 screentoworldpos2 = MainCamera.ViewportToWorldPoint(new Vector3(1, worldtoscreenpos.y, worldtoscreenpos.z));
-        float positionX = UnityEngine.Random.Range(screentoworldpos1.x, screentoworldpos2.x - (deltaX + 2));
+        Vector3 screenPos = MainCamera.WorldToScreenPoint(parentPosition);
+
+        // left & right edges of the screen in world space at that depth
+        Vector3 leftWorld = MainCamera.ScreenToWorldPoint(
+            new Vector3(0, screenPos.y, screenPos.z)
+        );
+        Vector3 rightWorld = MainCamera.ScreenToWorldPoint(
+            new Vector3(Screen.width, screenPos.y, screenPos.z)
+        );
+
+        // deltaX = distance from parent to last letter
+        float margin = 2f;
+        float maxX = rightWorld.x - (deltaX + margin);
+        float positionX = UnityEngine.Random.Range(leftWorld.x, maxX);
+
         wordParent.transform.position = new Vector3(positionX, parentPosition.y, parentPosition.z);
+
         //Debug.Log("Parent of the word is between " + screentoworldpos1.x + " and " + screentoworldpos2.x + " pixels from the left");
     }
 
     public GameObject getPrefabFromLetter(string ch) {
-        GameObject gm = null;
         for (int i = 0; i < LettersArray.Length; i++) {
-            if (LettersArray[i].name.Equals(ch)) {
-                gm = LettersArray[i];
+            if (LettersArray[i].name.Equals(ch, StringComparison.Ordinal)) {
+                return LettersArray[i];
             }
         }
-        return gm;
+        return null;
     }
+
 
 }

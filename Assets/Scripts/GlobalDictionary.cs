@@ -95,17 +95,29 @@ public class GlobalDictionary : MonoBehaviour
 
 
     public static bool UseChapter1Unit7 = false;
-    private static List<Word> taksi1Enotita7 = new List<Word>() { new Word("περιπέτεια", "περιπέτια"), new Word("φωτογραφία", "φοτογραφία"), new Word("γράμμα", "γράμα"), new Word("τύμπανο", "τίμπανο"), new Word("ελευθερία", "ελεφθερία"), new Word("θησαυρός", "θισαυρός"), new Word("συρτάρι", "σιρτάρι"),
-    new Word("καΐκι", "καίκι"), new Word("μαϊμού", "μαιμού"), new Word("γαϊδούρι", "γαιδούρι"), new Word("καΐκι", "καίκι"), new Word("συλλογή", "συλογή"), new Word("οδηγίες", "οδηγείες"), new Word("υλικά", "υληκα"), new Word("νησί", "νησή"), new Word("ύφασμα", "ήφασμα"), new Word("πετρώνω", "πετρόνω") };
+    private static List<Word> taksi1Enotita7 = new List<Word>() { 
+        new Word("περιπέτεια", "περιπέτια"), new Word("φωτογραφία", "φοτογραφία"),
+        new Word("γράμμα", "γράμα"), new Word("τύμπανο", "τίμπανο"), new Word("ελευθερία", "ελεφθερία"), 
+        new Word("θησαυρός", "θισαυρός"), new Word("συρτάρι", "σιρτάρι"),
+    
+        new Word("καΐκι", "καίκι"), 
+        //new Word("μαϊμού", "μαιμού"), 
+        //new Word("γαϊδούρι", "γαιδούρι"), 
+        //new Word("καΐκι", "καίκι"), 
+        new Word("συλλογή", "συλογή"), new Word("οδηγίες", "οδηγείες"), new Word("υλικά", "υληκα"), new Word("νησί", "νησή"), new Word("ύφασμα", "ήφασμα"), new Word("πετρώνω", "πετρόνω") };
 
 
     public static bool UseChapter1Unit8 = false;
     private static List<Word> taksi1Enotita8 = new List<Word>() { new Word("πολυκατοικία", "ποληκατοικία"), new Word("γείτονα", "γείτωνας"), new Word("ξεφορτώνω", "ξεφορτόνω"), new Word("ποδήλατο", "ποδίλατο"), new Word("επάγγελμα", "επάγκελμα"), new Word("μέλισσα", "μέλισσα"), new Word("μυρίζω", "μυρήζω"),
-    new Word("χειμώνας", "χειμόνας"), new Word("άνοιξη", "άνειξη"), new Word("καλοκαίρι", "καλοκέρι"), new Word("κελαηδώ", "κελαϊδώ"), new Word("ζέστη", "ζέστει"), new Word("κρύο", "κρείο") };
+    new Word("χειμώνας", "χειμόνας"), new Word("άνοιξη", "άνειξη"), new Word("καλοκαίρι", "καλοκέρι"), 
+        //new Word("κελαηδώ", "κελαϊδώ"),
+        new Word("ζέστη", "ζέστει"), new Word("κρύο", "κρείο") };
 
 
     public static bool UseChapter1Unit9 = false;
-    private static List<Word> taksi1Enotita9 = new List<Word>() { new Word("φύλακας", "φοίλακας"), new Word("διευθυντής", "διεφθυντής"), new Word("σχολείο", "σχολίο"), new Word("τρόλει", "τρόλεϊ"), new Word("βιβλιοθήκη", "βιβλειοθήκη"), new Word("θάλασσα", "θάλασα"), new Word("συγγραφέας", "συγραφέας"),
+    private static List<Word> taksi1Enotita9 = new List<Word>() { new Word("φύλακας", "φοίλακας"), new Word("διευθυντής", "διεφθυντής"), new Word("σχολείο", "σχολίο"), 
+        //new Word("τρόλει", "τρόλεϊ"), 
+        new Word("βιβλιοθήκη", "βιβλειοθήκη"), new Word("θάλασσα", "θάλασα"), new Word("συγγραφέας", "συγραφέας"),
     new Word("περιπέτεια", "περιπέτια"), new Word("εξώφυλλο", "εξώφυλο"), new Word("πρόσκληση", "πρόσκλησει"), new Word("λεωφορείο", "λεοφωρείο"), new Word("δρομολόγιο", "δρομολόγειο"), new Word("πληροφορία", "πληροφωρία"), new Word("θόρυβος", "θώρυβος"), new Word("χάνομαι", "χάνωμαι") };
 
 
